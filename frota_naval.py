@@ -35,3 +35,39 @@ print ("Na tela vai aparecer o tabuleiro dos seus navios e, no tabuleiro da esqu
 print ("Símbolos: . = casa ainda não atirada | X = acertou um navio | o = água | ~ = água no seu tabuleiro | 1, 2, 3, 4 = partes dos seus navios (1 = submarino, 2 = encouraçado, 3 = fragata, 4 = porta-aviões).")
 print ("Como atirar: o jogo vai pedir primeiro a LINHA e depois a COLUNA, uma de cada vez.")
 print ("Digite apenas um número de 1 a 6 e aperte Enter. Não use vírgula, ponto nem espaço.")
+# ===== EXIBIÇÃO DOS TABULEIROS =====
+
+# Identifica os tabuleiros do jogador atual
+if turno == 1:
+    tabuleiro_navios = navios1
+    tabuleiro_tiros = tiros1
+else:
+    tabuleiro_navios = navios2
+    tabuleiro_tiros = tiros2
+
+# Exibe o tabuleiro dos próprios navios
+print("\n========== SEU TABULEIRO DE NAVIOS ==========")
+print("   1 2 3 4 5 6")
+
+for i in range(6):
+    print(i + 1, end="  ")
+
+    for j in range(6):
+        if tabuleiro_navios[i][j] == 0:
+            print("~", end=" ")
+        else:
+            print(tabuleiro_navios[i][j], end=" ")
+
+    print()
+
+# Exibe o tabuleiro dos tiros realizados
+print("\n========== SEU TABULEIRO DE TIROS ==========")
+print("   1 2 3 4 5 6")
+
+for i in range(6):
+    print(i + 1, end="  ")
+
+    for j in range(6):
+        print(tabuleiro_tiros[i][j], end=" ")
+
+    print()

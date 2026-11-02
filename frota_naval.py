@@ -35,6 +35,65 @@ print ("Na tela vai aparecer o tabuleiro dos seus navios e, no tabuleiro da esqu
 print ("Símbolos: . = casa ainda não atirada | X = acertou um navio | o = água | ~ = água no seu tabuleiro | 1, 2, 3, 4 = partes dos seus navios (1 = submarino, 2 = encouraçado, 3 = fragata, 4 = porta-aviões).")
 print ("Como atirar: o jogo vai pedir primeiro a LINHA e depois a COLUNA, uma de cada vez.")
 print ("Digite apenas um número de 1 a 6 e aperte Enter. Não use vírgula, ponto nem espaço.")
+
+# ===== POSICIONAMENTO DOS SUBMARINOS =====
+
+# Cada jogador escolhe a posição do seu submarino
+for jogador in range(1, 3):
+
+    if jogador == 1:
+        tabuleiro_atual = navios1
+    else:
+        tabuleiro_atual = navios2
+
+    print("\nJogador", jogador, "- posicione seu submarino.")
+
+    posicionado = False
+
+    while posicionado == False:
+
+        # Validação da linha escolhida
+        linha_valida = False
+
+        while linha_valida == False:
+            entrada_linha = input("Digite a linha (1 a 6): ")
+
+            for numero in range(1, 7):
+                if entrada_linha == str(numero):
+                    linha = numero - 1
+                    linha_valida = True
+
+            if linha_valida == False:
+                print("Linha inválida! Digite um número de 1 a 6.")
+
+        # Validação da coluna escolhida
+        coluna_valida = False
+
+        while coluna_valida == False:
+            entrada_coluna = input("Digite a coluna (1 a 6): ")
+
+            for numero in range(1, 7):
+                if entrada_coluna == str(numero):
+                    coluna = numero - 1
+                    coluna_valida = True
+
+            if coluna_valida == False:
+                print("Coluna inválida! Digite um número de 1 a 6.")
+
+        # Verifica se a casa está vazia
+        if tabuleiro_atual[linha][coluna] == 0:
+            tabuleiro_atual[linha][coluna] = 1
+            posicionado = True
+            print("Submarino posicionado com sucesso!")
+        else:
+            print("Essa posição já está ocupada! Escolha outra.")
+
+    if jogador == 1:
+        input("\nPasse a vez ao jogador 2 e pressione Enter.")
+        print("\n" * 35)
+
+print("\nPosicionamento dos submarinos concluído!")
+
 # ===== EXIBIÇÃO DOS TABULEIROS =====
 
 # Identifica os tabuleiros do jogador atual

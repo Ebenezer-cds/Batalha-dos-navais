@@ -26,6 +26,25 @@ tiros2 = [[".", ".", ".", ".", ".", "."],
           [".", ".", ".", ".", ".", "."],
           [".", ".", ".", ".", ".", "."]]
 turno = 1
+
+
+def exibir_tabuleiro(tabuleiro, titulo, substituir_agua=False):
+    """Exibe um tabuleiro 6x6 com cabeçalhos de linha e coluna."""
+    print("\n==========", titulo, "==========")
+    print("   1 2 3 4 5 6")
+
+    for indice_linha, linha in enumerate(tabuleiro, start=1):
+        print(indice_linha, end="  ")
+
+        for casa in linha:
+            if substituir_agua and casa == 0:
+                print("~", end=" ")
+            else:
+                print(casa, end=" ")
+
+        print()
+
+
 print ("======================= Bem-vindo ao batalha dos navais! ======================")
 print ("Aqui vai as regras do nosso jogo, você terá que adivinhar onde estão os navios do seu adversário, cada jogador tem 4 navios, sendo eles: 1 porta-aviões, 1 encouraçado, 1 submarino e 1 fragata.")
 print ("O tamanho de cada navio é o seguinte: porta-aviões = 4, fragata = 3, encouraçado = 2 e submarino = 1.")
@@ -104,29 +123,6 @@ else:
     tabuleiro_navios = navios2
     tabuleiro_tiros = tiros2
 
-# Exibe o tabuleiro dos próprios navios
-print("\n========== SEU TABULEIRO DE NAVIOS ==========")
-print("   1 2 3 4 5 6")
-
-for i in range(6):
-    print(i + 1, end="  ")
-
-    for j in range(6):
-        if tabuleiro_navios[i][j] == 0:
-            print("~", end=" ")
-        else:
-            print(tabuleiro_navios[i][j], end=" ")
-
-    print()
-
-# Exibe o tabuleiro dos tiros realizados
-print("\n========== SEU TABULEIRO DE TIROS ==========")
-print("   1 2 3 4 5 6")
-
-for i in range(6):
-    print(i + 1, end="  ")
-
-    for j in range(6):
-        print(tabuleiro_tiros[i][j], end=" ")
-
-    print()
+# Exibe os tabuleiros do jogador atual
+exibir_tabuleiro(tabuleiro_navios, "SEU TABULEIRO DE NAVIOS", True)
+exibir_tabuleiro(tabuleiro_tiros, "SEU TABULEIRO DE TIROS")

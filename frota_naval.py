@@ -45,6 +45,17 @@ def exibir_tabuleiro(tabuleiro, titulo, substituir_agua=False):
         print()
 
 
+def ler_coordenada(tipo):
+    """Lê uma linha ou coluna válida e retorna seu índice no tabuleiro."""
+    while True:
+        entrada = input("Digite a " + tipo + " (1 a 6): ")
+
+        if entrada in ["1", "2", "3", "4", "5", "6"]:
+            return int(entrada) - 1
+
+        print(tipo.capitalize() + " inválida! Digite um número de 1 a 6.")
+
+
 print ("======================= Bem-vindo ao batalha dos navais! ======================")
 print ("Aqui vai as regras do nosso jogo, você terá que adivinhar onde estão os navios do seu adversário, cada jogador tem 4 navios, sendo eles: 1 porta-aviões, 1 encouraçado, 1 submarino e 1 fragata.")
 print ("O tamanho de cada navio é o seguinte: porta-aviões = 4, fragata = 3, encouraçado = 2 e submarino = 1.")
@@ -70,34 +81,8 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
-
-        # Validação da linha escolhida
-        linha_valida = False
-
-        while linha_valida == False:
-            entrada_linha = input("Digite a linha (1 a 6): ")
-
-            for numero in range(1, 7):
-                if entrada_linha == str(numero):
-                    linha = numero - 1
-                    linha_valida = True
-
-            if linha_valida == False:
-                print("Linha inválida! Digite um número de 1 a 6.")
-
-        # Validação da coluna escolhida
-        coluna_valida = False
-
-        while coluna_valida == False:
-            entrada_coluna = input("Digite a coluna (1 a 6): ")
-
-            for numero in range(1, 7):
-                if entrada_coluna == str(numero):
-                    coluna = numero - 1
-                    coluna_valida = True
-
-            if coluna_valida == False:
-                print("Coluna inválida! Digite um número de 1 a 6.")
+        linha = ler_coordenada("linha")
+        coluna = ler_coordenada("coluna")
 
         # Verifica se a casa está vazia
         if tabuleiro_atual[linha][coluna] == 0:

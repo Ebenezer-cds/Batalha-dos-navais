@@ -1,3 +1,7 @@
+# ===== MATRIZES DO JOGO (Aluno A) =====
+# navios1/navios2: frota de cada jogador (0 = água, 1 = submarino, 2 = encouraçado, 3 = fragata, 4 = porta-aviões)
+# tiros1/tiros2: tiros dados por cada jogador (. = não atirou, X = acertou, o = água)
+
 navios1 = [[0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
@@ -25,8 +29,11 @@ tiros2 = [[".", ".", ".", ".", ".", "."],
           [".", ".", ".", ".", ".", "."],
           [".", ".", ".", ".", ".", "."],
           [".", ".", ".", ".", ".", "."]]
+
+# ===== VARIÁVEIS DE CONTROLE =====
 turno = 1
 
+# ===== REGRAS =====
 print("======================= Bem-vindo ao batalha dos navais! ======================")
 print("Aqui vai as regras do nosso jogo, você terá que adivinhar onde estão os navios do seu adversário, cada jogador tem 4 navios, sendo eles: 1 porta-aviões, 1 encouraçado, 1 submarino e 1 fragata.")
 print("O tamanho de cada navio é o seguinte: porta-aviões = 4, fragata = 3, encouraçado = 2 e submarino = 1.")
@@ -88,34 +95,90 @@ for jogador in range(1, 3):
 
 print("\nPosicionamento dos submarinos concluído!")
 
-# ===== EXIBIÇÃO DOS TABULEIROS =====
+# ===== SEQUÊNCIA DE JOGADAS =====
+# O fim da partida (vitória) será completado pelo Aluno B
+# A exibição dos tabuleiros e a leitura do tiro são do Aluno A
 
-# Identifica os tabuleiros do jogador atual
-if turno == 1:
-    tabuleiro_navios = navios1
-    tabuleiro_tiros = tiros1
-else:
-    tabuleiro_navios = navios2
-    tabuleiro_tiros = tiros2
+fim_de_jogo = False
+tiros_dados = 0  # TESTE TEMPORÁRIO (apague junto com o bloco de teste no fim do laço)
 
-# Percorre as linhas e colunas do tabuleiro de navios
-# Mostra ~ nas casas vazias
-print("\n========== SEU TABULEIRO DE NAVIOS ==========")
-print("   1 2 3 4 5 6")
-for i in range(6):
-    print(i + 1, end="  ")
-    for j in range(6):
-        if tabuleiro_navios[i][j] == 0:
-            print("~", end=" ")
+while fim_de_jogo == False:
+
+    # Escolhe os tabuleiros do jogador da vez
+    if turno == 1:
+        tabuleiro_navios = navios1
+        tabuleiro_tiros = tiros1
+        navios_adversario = navios2
+    else:
+        tabuleiro_navios = navios2
+        tabuleiro_tiros = tiros2
+        navios_adversario = navios1
+
+    # for aninhado: mostra os navios do jogador (~ = água)
+    print("\n========== JOGADOR", turno, "- SEU TABULEIRO DE NAVIOS ==========")
+    print("   1 2 3 4 5 6")
+    for i in range(6):
+        print(i + 1, end="  ")
+        for j in range(6):
+            if tabuleiro_navios[i][j] == 0:
+                print("~", end=" ")
+            else:
+                print(tabuleiro_navios[i][j], end=" ")
+        print()
+
+    # for aninhado: mostra os tiros que o jogador já deu
+    print("\n========== JOGADOR", turno, "- SEU TABULEIRO DE TIROS ==========")
+    print("   1 2 3 4 5 6")
+    for i in range(6):
+        print(i + 1, end="  ")
+        for j in range(6):
+            print(tabuleiro_tiros[i][j], end=" ")
+        print()
+
+    # ===== LEITURA DO TIRO =====
+    atirou = False
+    while atirou == False:
+
+        # Lê a linha até ser válida (compara o texto com "1" a "6")
+        linha_valida = False
+        while linha_valida == False:
+            entrada_linha = input("\nLinha do tiro (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_linha == str(numero):
+                    linha = numero - 1
+                    linha_valida = True
+            if linha_valida == False:
+                print("Linha inválida! Digite um número de 1 a 6.")
+
+        # Lê a coluna até ser válida
+        coluna_valida = False
+        while coluna_valida == False:
+            entrada_coluna = input("Coluna do tiro (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_coluna == str(numero):
+                    coluna = numero - 1
+                    coluna_valida = True
+            if coluna_valida == False:
+                print("Coluna inválida! Digite um número de 1 a 6.")
+
+        # Casa já atirada? Se sim, pede outro tiro
+        if tabuleiro_tiros[linha][coluna] != ".":
+            print("Você já atirou nessa casa! Escolha outra.")
         else:
-            print(tabuleiro_navios[i][j], end=" ")
-    print()
+            if navios_adversario[linha][coluna] > 0:
+                tabuleiro_tiros[linha][coluna] = "X"
+                print("Acertou!")
+            else:
+                tabuleiro_tiros[linha][coluna] = "o"
+                print("Água!")
+            atirou = True
 
-# Percorre as linhas e colunas do tabuleiro de tiros
-print("\n========== SEU TABULEIRO DE TIROS ==========")
-print("   1 2 3 4 5 6")
-for i in range(6):
-    print(i + 1, end="  ")
-    for j in range(6):
-        print(tabuleiro_tiros[i][j], end=" ")
-    print()
+    # Troca de jogador e esconde a tela
+    input("\nAperte Enter e passe a vez ao outro jogador.")
+    print("\n" * 35)
+    turno = 3 - turno
+
+    # TESTE TEMPORÁRIO: encerra depois de 4 tiros (o Aluno B troca isso pela vitória)
+    tiros_dados = tiros_dados + 1
+    if tiros_dados == 4:
+        fim_de_jogo = True

@@ -105,22 +105,30 @@ tiros_dados = 0  # TESTE TEMPORÁRIO (apague junto com o bloco de teste no fim d
 while fim_de_jogo == False:
 
     # Escolhe os tabuleiros do jogador da vez
+    # tiros_recebidos = tiros que o ADVERSÁRIO já deu na frota deste jogador
     if turno == 1:
         tabuleiro_navios = navios1
         tabuleiro_tiros = tiros1
         navios_adversario = navios2
+        tiros_recebidos = tiros2
     else:
         tabuleiro_navios = navios2
         tabuleiro_tiros = tiros2
         navios_adversario = navios1
+        tiros_recebidos = tiros1
 
-    # for aninhado: mostra os navios do jogador (~ = água)
+    # for aninhado: mostra a frota do jogador com os tiros que o adversário deu
+    # (~ = água, número = parte do navio, X = parte atingida, o = tiro na água)
     print("\n========== JOGADOR", turno, "- SEU TABULEIRO DE NAVIOS ==========")
     print("   1 2 3 4 5 6")
     for i in range(6):
         print(i + 1, end="  ")
         for j in range(6):
-            if tabuleiro_navios[i][j] == 0:
+            if tiros_recebidos[i][j] == "X":
+                print("X", end=" ")
+            elif tiros_recebidos[i][j] == "o":
+                print("o", end=" ")
+            elif tabuleiro_navios[i][j] == 0:
                 print("~", end=" ")
             else:
                 print(tabuleiro_navios[i][j], end=" ")

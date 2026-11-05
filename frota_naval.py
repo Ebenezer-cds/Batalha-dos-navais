@@ -1,7 +1,3 @@
-# ===== MATRIZES DO JOGO (Aluno A) =====
-# navios1/navios2: frota de cada jogador (0 = água, 1 = submarino, 2 = encouraçado, 3 = fragata, 4 = porta-aviões)
-# tiros1/tiros2: tiros dados por cada jogador (. = não atirou, X = acertou, o = água)
-
 navios1 = [[0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
@@ -59,7 +55,7 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
-        # Confere se a linha escolhida está entre 1 e 6
+        # Lê a linha até ser válida
         linha_valida = False
         while linha_valida == False:
             entrada_linha = input("Digite a linha (1 a 6): ")
@@ -70,7 +66,7 @@ for jogador in range(1, 3):
             if linha_valida == False:
                 print("Linha inválida! Digite um número de 1 a 6.")
 
-        # Confere se a coluna escolhida está entre 1 e 6
+        # Lê a coluna até ser válida
         coluna_valida = False
         while coluna_valida == False:
             entrada_coluna = input("Digite a coluna (1 a 6): ")
@@ -110,6 +106,7 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
+        # Lê a linha inicial até ser válida
         linha_valida = False
         while linha_valida == False:
             entrada_linha = input("Linha inicial da fragata (1 a 6): ")
@@ -120,6 +117,7 @@ for jogador in range(1, 3):
             if linha_valida == False:
                 print("Linha inválida! Digite um número de 1 a 6.")
 
+        # Lê a coluna inicial até ser válida
         coluna_valida = False
         while coluna_valida == False:
             entrada_coluna = input("Coluna inicial da fragata (1 a 6): ")
@@ -258,11 +256,7 @@ print("\n" * 35)
 
 
 # ===== SEQUÊNCIA DE JOGADAS =====
-# O fim da partida (vitória) será completado pelo Aluno B
-# A exibição dos tabuleiros e a leitura do tiro são do Aluno A
-
 fim_de_jogo = False
-tiros_dados = 0  # TESTE TEMPORÁRIO (apague junto com o bloco de teste no fim do laço)
 
 while fim_de_jogo == False:
 
@@ -305,11 +299,11 @@ while fim_de_jogo == False:
             print(tabuleiro_tiros[i][j], end=" ")
         print()
 
-    # ===== LEITURA DO TIRO =====
+        # ===== LEITURA DO TIRO =====
     atirou = False
     while atirou == False:
 
-        # Lê a linha até ser válida (compara o texto com "1" a "6")
+        # Lê a linha do tiro até ser válida
         linha_valida = False
         while linha_valida == False:
             entrada_linha = input("\nLinha do tiro (1 a 6): ")
@@ -320,7 +314,7 @@ while fim_de_jogo == False:
             if linha_valida == False:
                 print("Linha inválida! Digite um número de 1 a 6.")
 
-        # Lê a coluna até ser válida
+        # Lê a coluna do tiro até ser válida
         coluna_valida = False
         while coluna_valida == False:
             entrada_coluna = input("Coluna do tiro (1 a 6): ")
@@ -343,12 +337,18 @@ while fim_de_jogo == False:
                 print("Água!")
             atirou = True
 
-    # Troca de jogador e esconde a tela
-    input("\nAperte Enter e passe a vez ao outro jogador.")
-    print("\n" * 35)
-    turno = 3 - turno
+    # for aninhado: conta as partes de navio do adversário que ainda não foram atingidas
+    restantes = 0
+    for i in range(6):
+        for j in range(6):
+            if navios_adversario[i][j] > 0 and tabuleiro_tiros[i][j] != "X":
+                restantes = restantes + 1
 
-    # TESTE TEMPORÁRIO: encerra depois de 4 tiros (o Aluno B troca isso pela vitória)
-    tiros_dados = tiros_dados + 1
-    if tiros_dados == 4:
+    if restantes == 0:
+        print("\nJogador", turno, "venceu! Todos os navios adversários foram afundados.")
         fim_de_jogo = True
+    else:
+        # Troca de jogador e esconde a tela
+        input("\nAperte Enter e passe a vez ao outro jogador.")
+        print("\n" * 35)
+        turno = 3 - turno

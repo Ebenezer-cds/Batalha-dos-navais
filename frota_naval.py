@@ -95,6 +95,84 @@ for jogador in range(1, 3):
 
 print("\nPosicionamento dos submarinos concluído!")
 
+# ===== POSICIONAMENTO DAS FRAGATAS =====
+
+input("\nPasse a vez ao jogador 1 para posicionar a fragata e pressione Enter.")
+print("\n" * 35)
+
+for jogador in range(1, 3):
+    if jogador == 1:
+        tabuleiro_atual = navios1
+    else:
+        tabuleiro_atual = navios2
+
+    print("\nJogador", jogador, "- posicione sua fragata de 3 casas.")
+    posicionado = False
+
+    while posicionado == False:
+        linha_valida = False
+        while linha_valida == False:
+            entrada_linha = input("Linha inicial da fragata (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_linha == str(numero):
+                    linha = numero - 1
+                    linha_valida = True
+            if linha_valida == False:
+                print("Linha inválida! Digite um número de 1 a 6.")
+
+        coluna_valida = False
+        while coluna_valida == False:
+            entrada_coluna = input("Coluna inicial da fragata (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_coluna == str(numero):
+                    coluna = numero - 1
+                    coluna_valida = True
+            if coluna_valida == False:
+                print("Coluna inválida! Digite um número de 1 a 6.")
+
+        direcao_valida = False
+        while direcao_valida == False:
+            direcao = input("Direção (1 = horizontal, 2 = vertical): ")
+            if direcao == "1" or direcao == "2":
+                direcao_valida = True
+            else:
+                print("Direção inválida! Digite 1 ou 2.")
+
+        # Verifica todas as casas antes de posicionar a fragata
+        espaco_livre = True
+        for parte in range(3):
+            linha_parte = linha
+            coluna_parte = coluna
+            if direcao == "1":
+                coluna_parte = coluna + parte
+            else:
+                linha_parte = linha + parte
+
+            if linha_parte >= 6 or coluna_parte >= 6:
+                espaco_livre = False
+            elif tabuleiro_atual[linha_parte][coluna_parte] != 0:
+                espaco_livre = False
+
+        if espaco_livre == True:
+            # Coloca as três partes da fragata na matriz
+            for parte in range(3):
+                if direcao == "1":
+                    tabuleiro_atual[linha][coluna + parte] = 3
+                else:
+                    tabuleiro_atual[linha + parte][coluna] = 3
+
+            posicionado = True
+            print("Fragata posicionada com sucesso!")
+        else:
+            print("A fragata não cabe nessa posição ou existe outro navio no caminho. Tente novamente.")
+
+    if jogador == 1:
+        input("\nPasse a vez ao jogador 2 e pressione Enter.")
+        print("\n" * 35)
+
+input("\nFragatas posicionadas! Passe a vez ao jogador 1 para começar os tiros e pressione Enter.")
+print("\n" * 35)
+
 # ===== SEQUÊNCIA DE JOGADAS =====
 # O fim da partida (vitória) será completado pelo Aluno B
 # A exibição dos tabuleiros e a leitura do tiro são do Aluno A

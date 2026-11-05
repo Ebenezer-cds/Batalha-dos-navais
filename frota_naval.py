@@ -33,6 +33,17 @@ tiros2 = [[".", ".", ".", ".", ".", "."],
 # ===== VARIÁVEIS DE CONTROLE =====
 turno = 1
 
+
+def todos_navios_afundados(navios, tiros):
+    """Retorna True quando cada parte de navio já recebeu um acerto."""
+    for linha in range(6):
+        for coluna in range(6):
+            if navios[linha][coluna] > 0 and tiros[linha][coluna] != "X":
+                return False
+
+    return True
+
+
 # ===== REGRAS =====
 print("======================= Bem-vindo ao batalha dos navais! ======================")
 print("Aqui vai as regras do nosso jogo, você terá que adivinhar onde estão os navios do seu adversário, cada jogador tem 4 navios, sendo eles: 1 porta-aviões, 1 encouraçado, 1 submarino e 1 fragata.")
@@ -178,7 +189,6 @@ print("\n" * 35)
 # A exibição dos tabuleiros e a leitura do tiro são do Aluno A
 
 fim_de_jogo = False
-tiros_dados = 0  # TESTE TEMPORÁRIO (apague junto com o bloco de teste no fim do laço)
 
 while fim_de_jogo == False:
 
@@ -259,12 +269,11 @@ while fim_de_jogo == False:
                 print("Água!")
             atirou = True
 
-    # Troca de jogador e esconde a tela
-    input("\nAperte Enter e passe a vez ao outro jogador.")
-    print("\n" * 35)
-    turno = 3 - turno
-
-    # TESTE TEMPORÁRIO: encerra depois de 4 tiros (o Aluno B troca isso pela vitória)
-    tiros_dados = tiros_dados + 1
-    if tiros_dados == 4:
+    if todos_navios_afundados(navios_adversario, tabuleiro_tiros):
+        print("\nJogador", turno, "venceu! Todos os navios adversários foram afundados.")
         fim_de_jogo = True
+    else:
+        # Troca de jogador e esconde a tela
+        input("\nAperte Enter e passe a vez ao outro jogador.")
+        print("\n" * 35)
+        turno = 3 - turno

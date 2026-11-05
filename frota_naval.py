@@ -44,6 +44,16 @@ def todos_navios_afundados(navios, tiros):
     return True
 
 
+def ler_coordenada(mensagem, tipo):
+    """Lê uma coordenada entre 1 e 6 e devolve o índice da matriz."""
+    while True:
+        entrada = input(mensagem)
+        if entrada in ["1", "2", "3", "4", "5", "6"]:
+            return int(entrada) - 1
+
+        print(tipo + " inválida! Digite um número de 1 a 6.")
+
+
 # ===== REGRAS =====
 print("======================= Bem-vindo ao batalha dos navais! ======================")
 print("Aqui vai as regras do nosso jogo, você terá que adivinhar onde estão os navios do seu adversário, cada jogador tem 4 navios, sendo eles: 1 porta-aviões, 1 encouraçado, 1 submarino e 1 fragata.")
@@ -70,27 +80,8 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
-        # Confere se a linha escolhida está entre 1 e 6
-        linha_valida = False
-        while linha_valida == False:
-            entrada_linha = input("Digite a linha (1 a 6): ")
-            for numero in range(1, 7):
-                if entrada_linha == str(numero):
-                    linha = numero - 1
-                    linha_valida = True
-            if linha_valida == False:
-                print("Linha inválida! Digite um número de 1 a 6.")
-
-        # Confere se a coluna escolhida está entre 1 e 6
-        coluna_valida = False
-        while coluna_valida == False:
-            entrada_coluna = input("Digite a coluna (1 a 6): ")
-            for numero in range(1, 7):
-                if entrada_coluna == str(numero):
-                    coluna = numero - 1
-                    coluna_valida = True
-            if coluna_valida == False:
-                print("Coluna inválida! Digite um número de 1 a 6.")
+        linha = ler_coordenada("Digite a linha (1 a 6): ", "Linha")
+        coluna = ler_coordenada("Digite a coluna (1 a 6): ", "Coluna")
 
         # Verifica se a casa está vazia
         if tabuleiro_atual[linha][coluna] == 0:
@@ -121,25 +112,8 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
-        linha_valida = False
-        while linha_valida == False:
-            entrada_linha = input("Linha inicial da fragata (1 a 6): ")
-            for numero in range(1, 7):
-                if entrada_linha == str(numero):
-                    linha = numero - 1
-                    linha_valida = True
-            if linha_valida == False:
-                print("Linha inválida! Digite um número de 1 a 6.")
-
-        coluna_valida = False
-        while coluna_valida == False:
-            entrada_coluna = input("Coluna inicial da fragata (1 a 6): ")
-            for numero in range(1, 7):
-                if entrada_coluna == str(numero):
-                    coluna = numero - 1
-                    coluna_valida = True
-            if coluna_valida == False:
-                print("Coluna inválida! Digite um número de 1 a 6.")
+        linha = ler_coordenada("Linha inicial da fragata (1 a 6): ", "Linha")
+        coluna = ler_coordenada("Coluna inicial da fragata (1 a 6): ", "Coluna")
 
         direcao_valida = False
         while direcao_valida == False:
@@ -234,28 +208,8 @@ while fim_de_jogo == False:
     # ===== LEITURA DO TIRO =====
     atirou = False
     while atirou == False:
-
-        # Lê a linha até ser válida (compara o texto com "1" a "6")
-        linha_valida = False
-        while linha_valida == False:
-            entrada_linha = input("\nLinha do tiro (1 a 6): ")
-            for numero in range(1, 7):
-                if entrada_linha == str(numero):
-                    linha = numero - 1
-                    linha_valida = True
-            if linha_valida == False:
-                print("Linha inválida! Digite um número de 1 a 6.")
-
-        # Lê a coluna até ser válida
-        coluna_valida = False
-        while coluna_valida == False:
-            entrada_coluna = input("Coluna do tiro (1 a 6): ")
-            for numero in range(1, 7):
-                if entrada_coluna == str(numero):
-                    coluna = numero - 1
-                    coluna_valida = True
-            if coluna_valida == False:
-                print("Coluna inválida! Digite um número de 1 a 6.")
+        linha = ler_coordenada("\nLinha do tiro (1 a 6): ", "Linha")
+        coluna = ler_coordenada("Coluna do tiro (1 a 6): ", "Coluna")
 
         # Casa já atirada? Se sim, pede outro tiro
         if tabuleiro_tiros[linha][coluna] != ".":

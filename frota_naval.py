@@ -1,7 +1,3 @@
-# ===== MATRIZES DO JOGO (Aluno A) =====
-# navios1/navios2: frota de cada jogador (0 = água, 1 = submarino, 2 = encouraçado, 3 = fragata, 4 = porta-aviões)
-# tiros1/tiros2: tiros dados por cada jogador (. = não atirou, X = acertou, o = água)
-
 navios1 = [[0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
@@ -33,27 +29,6 @@ tiros2 = [[".", ".", ".", ".", ".", "."],
 # ===== VARIÁVEIS DE CONTROLE =====
 turno = 1
 
-
-def todos_navios_afundados(navios, tiros):
-    """Retorna True quando cada parte de navio já recebeu um acerto."""
-    for linha in range(6):
-        for coluna in range(6):
-            if navios[linha][coluna] > 0 and tiros[linha][coluna] != "X":
-                return False
-
-    return True
-
-
-def ler_coordenada(mensagem, tipo):
-    """Lê uma coordenada entre 1 e 6 e devolve o índice da matriz."""
-    while True:
-        entrada = input(mensagem)
-        if entrada in ["1", "2", "3", "4", "5", "6"]:
-            return int(entrada) - 1
-
-        print(tipo + " inválida! Digite um número de 1 a 6.")
-
-
 # ===== REGRAS =====
 print("======================= Bem-vindo ao batalha dos navais! ======================")
 print("Aqui vai as regras do nosso jogo, você terá que adivinhar onde estão os navios do seu adversário, cada jogador tem 4 navios, sendo eles: 1 porta-aviões, 1 encouraçado, 1 submarino e 1 fragata.")
@@ -80,8 +55,27 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
-        linha = ler_coordenada("Digite a linha (1 a 6): ", "Linha")
-        coluna = ler_coordenada("Digite a coluna (1 a 6): ", "Coluna")
+        # Lê a linha até ser válida
+        linha_valida = False
+        while linha_valida == False:
+            entrada_linha = input("Digite a linha (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_linha == str(numero):
+                    linha = numero - 1
+                    linha_valida = True
+            if linha_valida == False:
+                print("Linha inválida! Digite um número de 1 a 6.")
+
+        # Lê a coluna até ser válida
+        coluna_valida = False
+        while coluna_valida == False:
+            entrada_coluna = input("Digite a coluna (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_coluna == str(numero):
+                    coluna = numero - 1
+                    coluna_valida = True
+            if coluna_valida == False:
+                print("Coluna inválida! Digite um número de 1 a 6.")
 
         # Verifica se a casa está vazia
         if tabuleiro_atual[linha][coluna] == 0:
@@ -112,8 +106,27 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
-        linha = ler_coordenada("Linha inicial da fragata (1 a 6): ", "Linha")
-        coluna = ler_coordenada("Coluna inicial da fragata (1 a 6): ", "Coluna")
+        # Lê a linha inicial até ser válida
+        linha_valida = False
+        while linha_valida == False:
+            entrada_linha = input("Linha inicial da fragata (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_linha == str(numero):
+                    linha = numero - 1
+                    linha_valida = True
+            if linha_valida == False:
+                print("Linha inválida! Digite um número de 1 a 6.")
+
+        # Lê a coluna inicial até ser válida
+        coluna_valida = False
+        while coluna_valida == False:
+            entrada_coluna = input("Coluna inicial da fragata (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_coluna == str(numero):
+                    coluna = numero - 1
+                    coluna_valida = True
+            if coluna_valida == False:
+                print("Coluna inválida! Digite um número de 1 a 6.")
 
         direcao_valida = False
         while direcao_valida == False:
@@ -159,9 +172,6 @@ input("\nFragatas posicionadas! Passe a vez ao jogador 1 para começar os tiros 
 print("\n" * 35)
 
 # ===== SEQUÊNCIA DE JOGADAS =====
-# O fim da partida (vitória) será completado pelo Aluno B
-# A exibição dos tabuleiros e a leitura do tiro são do Aluno A
-
 fim_de_jogo = False
 
 while fim_de_jogo == False:
@@ -205,11 +215,31 @@ while fim_de_jogo == False:
             print(tabuleiro_tiros[i][j], end=" ")
         print()
 
-    # ===== LEITURA DO TIRO =====
+        # ===== LEITURA DO TIRO =====
     atirou = False
     while atirou == False:
-        linha = ler_coordenada("\nLinha do tiro (1 a 6): ", "Linha")
-        coluna = ler_coordenada("Coluna do tiro (1 a 6): ", "Coluna")
+
+        # Lê a linha do tiro até ser válida
+        linha_valida = False
+        while linha_valida == False:
+            entrada_linha = input("\nLinha do tiro (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_linha == str(numero):
+                    linha = numero - 1
+                    linha_valida = True
+            if linha_valida == False:
+                print("Linha inválida! Digite um número de 1 a 6.")
+
+        # Lê a coluna do tiro até ser válida
+        coluna_valida = False
+        while coluna_valida == False:
+            entrada_coluna = input("Coluna do tiro (1 a 6): ")
+            for numero in range(1, 7):
+                if entrada_coluna == str(numero):
+                    coluna = numero - 1
+                    coluna_valida = True
+            if coluna_valida == False:
+                print("Coluna inválida! Digite um número de 1 a 6.")
 
         # Casa já atirada? Se sim, pede outro tiro
         if tabuleiro_tiros[linha][coluna] != ".":
@@ -223,7 +253,14 @@ while fim_de_jogo == False:
                 print("Água!")
             atirou = True
 
-    if todos_navios_afundados(navios_adversario, tabuleiro_tiros):
+    # for aninhado: conta as partes de navio do adversário que ainda não foram atingidas
+    restantes = 0
+    for i in range(6):
+        for j in range(6):
+            if navios_adversario[i][j] > 0 and tabuleiro_tiros[i][j] != "X":
+                restantes = restantes + 1
+
+    if restantes == 0:
         print("\nJogador", turno, "venceu! Todos os navios adversários foram afundados.")
         fim_de_jogo = True
     else:

@@ -170,8 +170,92 @@ for jogador in range(1, 3):
         input("\nPasse a vez ao jogador 2 e pressione Enter.")
         print("\n" * 35)
 
-input("\nFragatas posicionadas! Passe a vez ao jogador 1 para começar os tiros e pressione Enter.")
+
+# ===== POSICIONAMENTO DO ENCOURAÇADO E PORTA-AVIÕES =====
+
+# Posiciona os navios de 2 e 4 casas
+for tipo_navio in range(2, 5, 2):
+    if tipo_navio == 2:
+        nome_navio = "encouraçado"
+    else:
+        nome_navio = "porta-aviões"
+
+    input("\nPasse a vez ao jogador 1 para posicionar o " + nome_navio + " e pressione Enter.")
+    print("\n" * 35)
+
+    for jogador in range(1, 3):
+        if jogador == 1:
+            tabuleiro_atual = navios1
+        else:
+            tabuleiro_atual = navios2
+
+        print("\nJogador", jogador, "- posicione seu", nome_navio, "de", tipo_navio, "casas.")
+        posicionado = False
+
+        while posicionado == False:
+            linha_valida = False
+            while linha_valida == False:
+                entrada_linha = input("Linha inicial (1 a 6): ")
+                for numero in range(1, 7):
+                    if entrada_linha == str(numero):
+                        linha = numero - 1
+                        linha_valida = True
+                if linha_valida == False:
+                    print("Linha inválida! Digite um número de 1 a 6.")
+
+            coluna_valida = False
+            while coluna_valida == False:
+                entrada_coluna = input("Coluna inicial (1 a 6): ")
+                for numero in range(1, 7):
+                    if entrada_coluna == str(numero):
+                        coluna = numero - 1
+                        coluna_valida = True
+                if coluna_valida == False:
+                    print("Coluna inválida! Digite um número de 1 a 6.")
+
+            direcao_valida = False
+            while direcao_valida == False:
+                direcao = input("Direção (1 = horizontal, 2 = vertical): ")
+                if direcao == "1" or direcao == "2":
+                    direcao_valida = True
+                else:
+                    print("Direção inválida! Digite 1 ou 2.")
+
+            # Verifica se todas as casas estão livres
+            espaco_livre = True
+            for parte in range(tipo_navio):
+                linha_parte = linha
+                coluna_parte = coluna
+
+                if direcao == "1":
+                    coluna_parte = coluna + parte
+                else:
+                    linha_parte = linha + parte
+
+                if linha_parte >= 6 or coluna_parte >= 6:
+                    espaco_livre = False
+                elif tabuleiro_atual[linha_parte][coluna_parte] != 0:
+                    espaco_livre = False
+
+            if espaco_livre == True:
+                for parte in range(tipo_navio):
+                    if direcao == "1":
+                        tabuleiro_atual[linha][coluna + parte] = tipo_navio
+                    else:
+                        tabuleiro_atual[linha + parte][coluna] = tipo_navio
+
+                posicionado = True
+                print("Navio posicionado com sucesso!")
+            else:
+                print("Não há espaço livre nessa posição. Escolha outra.")
+
+        if jogador == 1:
+            input("\nPasse a vez ao jogador 2 e pressione Enter.")
+            print("\n" * 35)
+
+input("\nTodos os navios foram posicionados! Passe a vez ao jogador 1 para começar os tiros e pressione Enter.")
 print("\n" * 35)
+
 
 # ===== SEQUÊNCIA DE JOGADAS =====
 # O fim da partida (vitória) será completado pelo Aluno B

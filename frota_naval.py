@@ -1,3 +1,7 @@
+# ===== MATRIZES DO JOGO (Aluno A) =====
+# navios1/navios2: frota de cada jogador (0 = água, 1 = submarino, 2 = encouraçado, 3 = fragata, 4 = porta-aviões)
+# tiros1/tiros2: tiros dados por cada jogador (. = não atirou, X = acertou, o = água)
+
 navios1 = [[0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
@@ -55,6 +59,17 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
+        # for aninhado: mostra o seu tabuleiro com os navios já posicionados (~ = água)
+        print("\n   1 2 3 4 5 6")
+        for i in range(6):
+            print(i + 1, end="  ")
+            for j in range(6):
+                if tabuleiro_atual[i][j] == 0:
+                    print("~", end=" ")
+                else:
+                    print(tabuleiro_atual[i][j], end=" ")
+            print()
+
         # Lê a linha até ser válida
         linha_valida = False
         while linha_valida == False:
@@ -82,6 +97,17 @@ for jogador in range(1, 3):
             tabuleiro_atual[linha][coluna] = 1
             posicionado = True
             print("Submarino posicionado com sucesso!")
+
+            # for aninhado: mostra o tabuleiro já com o submarino
+            print("\n   1 2 3 4 5 6")
+            for i in range(6):
+                print(i + 1, end="  ")
+                for j in range(6):
+                    if tabuleiro_atual[i][j] == 0:
+                        print("~", end=" ")
+                    else:
+                        print(tabuleiro_atual[i][j], end=" ")
+                print()
         else:
             print("Essa posição já está ocupada! Escolha outra.")
 
@@ -106,6 +132,17 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
+        # for aninhado: mostra o seu tabuleiro com os navios já posicionados (~ = água)
+        print("\n   1 2 3 4 5 6")
+        for i in range(6):
+            print(i + 1, end="  ")
+            for j in range(6):
+                if tabuleiro_atual[i][j] == 0:
+                    print("~", end=" ")
+                else:
+                    print(tabuleiro_atual[i][j], end=" ")
+            print()
+
         # Lê a linha inicial até ser válida
         linha_valida = False
         while linha_valida == False:
@@ -161,6 +198,17 @@ for jogador in range(1, 3):
 
             posicionado = True
             print("Fragata posicionada com sucesso!")
+
+            # for aninhado: mostra o tabuleiro já com a fragata
+            print("\n   1 2 3 4 5 6")
+            for i in range(6):
+                print(i + 1, end="  ")
+                for j in range(6):
+                    if tabuleiro_atual[i][j] == 0:
+                        print("~", end=" ")
+                    else:
+                        print(tabuleiro_atual[i][j], end=" ")
+                print()
         else:
             print("A fragata não cabe nessa posição ou existe outro navio no caminho. Tente novamente.")
 
@@ -191,6 +239,17 @@ for tipo_navio in range(2, 5, 2):
         posicionado = False
 
         while posicionado == False:
+            # for aninhado: mostra o seu tabuleiro com os navios já posicionados (~ = água)
+            print("\n   1 2 3 4 5 6")
+            for i in range(6):
+                print(i + 1, end="  ")
+                for j in range(6):
+                    if tabuleiro_atual[i][j] == 0:
+                        print("~", end=" ")
+                    else:
+                        print(tabuleiro_atual[i][j], end=" ")
+                print()
+
             linha_valida = False
             while linha_valida == False:
                 entrada_linha = input("Linha inicial (1 a 6): ")
@@ -244,6 +303,17 @@ for tipo_navio in range(2, 5, 2):
 
                 posicionado = True
                 print("Navio posicionado com sucesso!")
+
+                # for aninhado: mostra o tabuleiro já com o navio
+                print("\n   1 2 3 4 5 6")
+                for i in range(6):
+                    print(i + 1, end="  ")
+                    for j in range(6):
+                        if tabuleiro_atual[i][j] == 0:
+                            print("~", end=" ")
+                        else:
+                            print(tabuleiro_atual[i][j], end=" ")
+                    print()
             else:
                 print("Não há espaço livre nessa posição. Escolha outra.")
 
@@ -299,7 +369,7 @@ while fim_de_jogo == False:
             print(tabuleiro_tiros[i][j], end=" ")
         print()
 
-        # ===== LEITURA DO TIRO =====
+    # ===== LEITURA DO TIRO =====
     atirou = False
     while atirou == False:
 

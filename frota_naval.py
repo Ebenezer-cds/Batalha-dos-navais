@@ -12,8 +12,8 @@
 # Só usamos o conteúdo permitido: variáveis, operadores, if/elif/else,
 # while, for, range(), matrizes (lista de listas), print(), input() e str().
 # =====================================================================
- 
- 
+
+
 # ===== MATRIZES DO JOGO =====
 # Cada tabuleiro é uma matriz 6x6 (lista de listas) declarada por extenso.
 # Para acessar uma casa usamos matriz[i][j]: i = linha e j = coluna.
@@ -21,7 +21,7 @@
 # navios1 / navios2: frota de cada jogador
 #   0 = água | 1 = submarino | 2 = encouraçado | 3 = fragata | 4 = porta-aviões
 # tiros1 / tiros2: tiros que cada jogador já deu no adversário
-#   "." = ainda não atirou | "X" = acertou um navio | "o" = o tirou acertou a água
+#   "." = ainda não atirou | "X" = acertou um navio | "o" = o tiro acertou na água
 navios1 = [[0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0],
@@ -83,8 +83,19 @@ for jogador in range(1, 3):
     print("\nJogador", jogador, "- posicione seu submarino.")
     # posicionado é um booleano: só vira True quando o navio foi colocado
     posicionado = False
-        # Repete até o jogador escolher uma posição válida
+    # Repete até o jogador escolher uma posição válida
     while posicionado == False:
+        # for aninhado: mostra o seu tabuleiro com os navios já posicionados (~ = água)
+        print("\n   1 2 3 4 5 6")
+        for i in range(6):
+            print(i + 1, end="  ")
+            for j in range(6):
+                if tabuleiro_atual[i][j] == 0:
+                    print("~", end=" ")
+                else:
+                    print(tabuleiro_atual[i][j], end=" ")
+            print()
+
         # VALIDAÇÃO DA LINHA
         # linha_valida: booleana que indica se o que foi digitado é válido.
         # Começa False e só vira True se o texto digitado for "1", "2", ..., "6"
@@ -121,10 +132,22 @@ for jogador in range(1, 3):
             tabuleiro_atual[linha][coluna] = 1
             posicionado = True
             print("Submarino posicionado com sucesso!")
+
+            # for aninhado: mostra o tabuleiro já com o submarino
+            print("\n   1 2 3 4 5 6")
+            for i in range(6):
+                print(i + 1, end="  ")
+                for j in range(6):
+                    if tabuleiro_atual[i][j] == 0:
+                        print("~", end=" ")
+                    else:
+                        print(tabuleiro_atual[i][j], end=" ")
+                print()
         else:
             print("Essa posição já está ocupada! Escolha outra.")
-        # Depois do jogador 1, esconde a tela para o jogador 2 não ver os navios.
-        # print("\n" * 35) imprime 35 linhas vazias, empurrando o texto antigo para cima.
+
+    # Depois do jogador 1, esconde a tela para o jogador 2 não ver os navios.
+    # print("\n" * 35) imprime 35 linhas vazias, empurrando o texto antigo para cima.
     if jogador == 1:
         input("\nPasse a vez ao jogador 2 e pressione Enter.")
         print("\n" * 35)
@@ -151,6 +174,17 @@ for jogador in range(1, 3):
     posicionado = False
 
     while posicionado == False:
+        # for aninhado: mostra o seu tabuleiro com os navios já posicionados (~ = água)
+        print("\n   1 2 3 4 5 6")
+        for i in range(6):
+            print(i + 1, end="  ")
+            for j in range(6):
+                if tabuleiro_atual[i][j] == 0:
+                    print("~", end=" ")
+                else:
+                    print(tabuleiro_atual[i][j], end=" ")
+            print()
+
         # Lê a linha inicial até ser válida
         linha_valida = False
         while linha_valida == False:
@@ -172,6 +206,7 @@ for jogador in range(1, 3):
                     coluna_valida = True
             if coluna_valida == False:
                 print("Coluna inválida! Digite um número de 1 a 6.")
+
         # direcao_valida: booleana, só vira True se a direção digitada for válida.
         # direcao: texto digitado ("1" = horizontal, "2" = vertical).
         direcao_valida = False
@@ -181,6 +216,7 @@ for jogador in range(1, 3):
                 direcao_valida = True
             else:
                 print("Direção inválida! Digite 1 ou 2.")
+
         # Verifica todas as casas antes de posicionar a fragata.
         # espaco_livre: booleana que começa True e vira False se QUALQUER parte
         # da fragata sair do tabuleiro ou bater em outro navio.
@@ -195,14 +231,15 @@ for jogador in range(1, 3):
                 coluna_parte = coluna + parte
             else:
                 linha_parte = linha + parte
-        # Coloca as três partes da fragata na matriz (número 3)
+
+            # Passou do tabuleiro (índice 6 ou mais)? Ou a casa já está ocupada?
             if linha_parte >= 6 or coluna_parte >= 6:
                 espaco_livre = False
             elif tabuleiro_atual[linha_parte][coluna_parte] != 0:
                 espaco_livre = False
 
         if espaco_livre == True:
-            # Coloca as três partes da fragata na matriz
+            # Coloca as três partes da fragata na matriz (número 3)
             for parte in range(3):
                 if direcao == "1":
                     tabuleiro_atual[linha][coluna + parte] = 3
@@ -211,6 +248,17 @@ for jogador in range(1, 3):
 
             posicionado = True
             print("Fragata posicionada com sucesso!")
+
+            # for aninhado: mostra o tabuleiro já com a fragata
+            print("\n   1 2 3 4 5 6")
+            for i in range(6):
+                print(i + 1, end="  ")
+                for j in range(6):
+                    if tabuleiro_atual[i][j] == 0:
+                        print("~", end=" ")
+                    else:
+                        print(tabuleiro_atual[i][j], end=" ")
+                print()
         else:
             print("A fragata não cabe nessa posição ou existe outro navio no caminho. Tente novamente.")
 
@@ -218,8 +266,120 @@ for jogador in range(1, 3):
         input("\nPasse a vez ao jogador 2 e pressione Enter.")
         print("\n" * 35)
 
-input("\nFragatas posicionadas! Passe a vez ao jogador 1 para começar os tiros e pressione Enter.")
+
+# ===== POSICIONAMENTO DO ENCOURAÇADO E PORTA-AVIÕES =====
+# range(2, 5, 2) gera apenas 2 e 4: o tamanho do encouraçado e do porta-aviões.
+# tipo_navio: variável inteira do for. Ela é o tamanho do navio e também o
+# número gravado na matriz (2 = encouraçado, 4 = porta-aviões).
+# nome_navio: texto usado só para mostrar o nome do navio nas mensagens.
+# O resto do bloco funciona como o da fragata, só que com tipo_navio casas.
+for tipo_navio in range(2, 5, 2):
+    if tipo_navio == 2:
+        nome_navio = "encouraçado"
+    else:
+        nome_navio = "porta-aviões"
+
+    input("\nPasse a vez ao jogador 1 para posicionar o " + nome_navio + " e pressione Enter.")
+    print("\n" * 35)
+
+    for jogador in range(1, 3):
+        if jogador == 1:
+            tabuleiro_atual = navios1
+        else:
+            tabuleiro_atual = navios2
+
+        print("\nJogador", jogador, "- posicione seu", nome_navio, "de", tipo_navio, "casas.")
+        posicionado = False
+
+        while posicionado == False:
+            # for aninhado: mostra o seu tabuleiro com os navios já posicionados (~ = água)
+            print("\n   1 2 3 4 5 6")
+            for i in range(6):
+                print(i + 1, end="  ")
+                for j in range(6):
+                    if tabuleiro_atual[i][j] == 0:
+                        print("~", end=" ")
+                    else:
+                        print(tabuleiro_atual[i][j], end=" ")
+                print()
+
+            # Lê a linha, a coluna e a direção até serem válidas (mesmo método da fragata)
+            linha_valida = False
+            while linha_valida == False:
+                entrada_linha = input("Linha inicial (1 a 6): ")
+                for numero in range(1, 7):
+                    if entrada_linha == str(numero):
+                        linha = numero - 1
+                        linha_valida = True
+                if linha_valida == False:
+                    print("Linha inválida! Digite um número de 1 a 6.")
+
+            coluna_valida = False
+            while coluna_valida == False:
+                entrada_coluna = input("Coluna inicial (1 a 6): ")
+                for numero in range(1, 7):
+                    if entrada_coluna == str(numero):
+                        coluna = numero - 1
+                        coluna_valida = True
+                if coluna_valida == False:
+                    print("Coluna inválida! Digite um número de 1 a 6.")
+
+            direcao_valida = False
+            while direcao_valida == False:
+                direcao = input("Direção (1 = horizontal, 2 = vertical): ")
+                if direcao == "1" or direcao == "2":
+                    direcao_valida = True
+                else:
+                    print("Direção inválida! Digite 1 ou 2.")
+
+            # Verifica se todas as casas estão livres e dentro do tabuleiro
+            # (o for repete tipo_navio vezes: 2 casas ou 4 casas)
+            espaco_livre = True
+            for parte in range(tipo_navio):
+                linha_parte = linha
+                coluna_parte = coluna
+
+                if direcao == "1":
+                    coluna_parte = coluna + parte
+                else:
+                    linha_parte = linha + parte
+
+                if linha_parte >= 6 or coluna_parte >= 6:
+                    espaco_livre = False
+                elif tabuleiro_atual[linha_parte][coluna_parte] != 0:
+                    espaco_livre = False
+
+            if espaco_livre == True:
+                # Grava o número do navio (tipo_navio) em cada casa que ele ocupa
+                for parte in range(tipo_navio):
+                    if direcao == "1":
+                        tabuleiro_atual[linha][coluna + parte] = tipo_navio
+                    else:
+                        tabuleiro_atual[linha + parte][coluna] = tipo_navio
+
+                posicionado = True
+                print("Navio posicionado com sucesso!")
+
+                # for aninhado: mostra o tabuleiro já com o navio
+                print("\n   1 2 3 4 5 6")
+                for i in range(6):
+                    print(i + 1, end="  ")
+                    for j in range(6):
+                        if tabuleiro_atual[i][j] == 0:
+                            print("~", end=" ")
+                        else:
+                            print(tabuleiro_atual[i][j], end=" ")
+                    print()
+            else:
+                print("Não há espaço livre nessa posição. Escolha outra.")
+
+        if jogador == 1:
+            input("\nPasse a vez ao jogador 2 e pressione Enter.")
+            print("\n" * 35)
+
+input("\nTodos os navios foram posicionados! Passe a vez ao jogador 1 para começar os tiros e pressione Enter.")
 print("\n" * 35)
+
 
 # ===== SEQUÊNCIA DE JOGADAS =====
 # Este while é a partida: cada volta é uma jogada de um jogador.
@@ -246,7 +406,7 @@ while fim_de_jogo == False:
         navios_adversario = navios1
         tiros_recebidos = tiros1
 
-    # EXIBIÇÃO DA FROTA DO JOGADOR (primeira vez que mostramos uma matriz)
+    # EXIBIÇÃO DA FROTA DO JOGADOR
     # Por que não usar só print(navios1)? Porque o print(navios1) funciona e
     # não dá erro, mas mostra a matriz "crua", no formato do Python:
     #   [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], ...]
@@ -287,7 +447,7 @@ while fim_de_jogo == False:
             print(tabuleiro_tiros[i][j], end=" ")
         print()
 
-        # ===== LEITURA DO TIRO =====
+    # ===== LEITURA DO TIRO =====
     # atirou: booleana que só vira True quando o jogador deu um tiro válido
     # (em uma casa ainda não atirada). Se for False, o while pede outro tiro.
     atirou = False
@@ -319,8 +479,7 @@ while fim_de_jogo == False:
         if tabuleiro_tiros[linha][coluna] != ".":
             print("Você já atirou nessa casa! Escolha outra.")
         else:
-        # Se na frota do adversário há um navio (número maior que 0), acertou
-
+            # Se na frota do adversário há um navio (número maior que 0), acertou
             if navios_adversario[linha][coluna] > 0:
                 tabuleiro_tiros[linha][coluna] = "X"
                 print("Acertou!")
@@ -329,17 +488,21 @@ while fim_de_jogo == False:
                 print("Água!")
             atirou = True
 
-    # for aninhado: conta as partes de navio do adversário que ainda não foram atingidas
+    # VERIFICAÇÃO DE VITÓRIA (for aninhado)
+    # restantes: variável inteira que funciona como um contador. Começa em 0 e
+    # conta quantas partes de navio do adversário ainda NÃO foram atingidas.
     restantes = 0
     # O for de fora percorre as linhas (i) e o de dentro as colunas (j),
     # visitando todas as 36 casas da frota do adversário.
     for i in range(6):
         for j in range(6):
-    # VERIFICAÇÃO DE VITÓRIA (for aninhado)
-    # restantes: variável inteira que funciona como um contador. Começa em 0 e
-    # conta quantas partes de navio do adversário ainda NÃO foram atingidas.    restantes = 0
+            # Cada casa é testada com duas condições ligadas por "and":
+            #   1) navios_adversario[i][j] > 0   -> a casa tem parte de um navio
+            #   2) tabuleiro_tiros[i][j] != "X"  -> e ainda não foi acertada
+            # Quando as duas são verdadeiras, soma 1 no contador.
             if navios_adversario[i][j] > 0 and tabuleiro_tiros[i][j] != "X":
                 restantes = restantes + 1
+
     # Se não sobrou nenhuma parte de navio sem acerto, todos foram afundados
     if restantes == 0:
         print("\nJogador", turno, "venceu! Todos os navios adversários foram afundados.")

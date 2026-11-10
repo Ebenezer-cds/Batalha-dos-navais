@@ -480,12 +480,32 @@ while fim_de_jogo == False:
             print("Você já atirou nessa casa! Escolha outra.")
         else:
             # Se na frota do adversário há um navio (número maior que 0), acertou
+            
             if navios_adversario[linha][coluna] > 0:
                 tabuleiro_tiros[linha][coluna] = "X"
                 print("Acertou!")
+
+                # Confere se todas as partes desse navio foram atingidas
+                tipo_atingido = navios_adversario[linha][coluna]
+                partes_restantes = 0
+                for i in range(6):
+                    for j in range(6):
+                        if navios_adversario[i][j] == tipo_atingido and tabuleiro_tiros[i][j] != "X":
+                            partes_restantes = partes_restantes + 1
+
+                if partes_restantes == 0:
+                    if tipo_atingido == 1:
+                        print("Você afundou o submarino adversário!")
+                    elif tipo_atingido == 2:
+                        print("Você afundou o encouraçado adversário!")
+                    elif tipo_atingido == 3:
+                        print("Você afundou a fragata adversária!")
+                    else:
+                        print("Você afundou o porta-aviões adversário!")
             else:
                 tabuleiro_tiros[linha][coluna] = "o"
                 print("Água!")
+
             atirou = True
 
     # VERIFICAÇÃO DE VITÓRIA (for aninhado)
